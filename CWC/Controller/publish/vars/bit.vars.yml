@@ -1,0 +1,4 @@
+IMAGE_TAG: harbor.cloudcontrolsystems.cn/workflow/controller:latest
+REGISTRY_USERNAME: admin
+REGISTRY_PASSWORD: Harbor12345
+REGISTRY_URI: harbor.cloudcontrolsystems.cn

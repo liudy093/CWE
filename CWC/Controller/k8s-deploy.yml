@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler-controller-deployment
+  labels: 
+    keel.sh/policy: force
+    keel.sh/trigger: webhooks
+    keel.sh/approvals: "0"
+    keel.sh/match-tag: "true"
+spec:
+  selector:
+    matchLabels:
+      app: scheduler-controller-ins
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: scheduler-controller-ins
+    spec:
+      containers:
+        - name: scheduler-controller-ins
+          imagePullPolicy: Always 
+          image: harbor.cloudcontrolsystems.cn/workflow/controller:latest # TODO: change to the real repo address
+          env:
+            - name: REDIS_HOST
+              value: redis.cloudcontrolsystems.cn
+            - name: SCHEDULER_IMAGE
+              value: harbor.cloudcontrolsystems.cn/workflow/scheduler:latest
+            - name: LOG_LEVEL
+              value: DEBUG
+            - name: SCHEDULER_CPU_CORE_COUNT
+              value: '2'
+            - name: SCHEDULER_MEM_SIZE
+              value: '1024'
+            - name: SCHEDULER_START_TIMEOUT_CYCLE
+              value: '20'
+          ports:
+            - containerPort: 6060 # grpc service port
+            - containerPort: 6061 # metric http port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scheduler-controller-service
+  labels:
+    app: scheduler-controller-service
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 6060
+      targetPort: 6060
+      nodePort: 30161
+      name: grpc-port
+    - protocol: TCP
+      port: 6061
+      targetPort: 6061
+      nodePort: 30162
+      name: metric-port
+  selector:
+    app: scheduler-controller-ins

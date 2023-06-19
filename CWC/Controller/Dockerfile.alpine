@@ -1,0 +1,25 @@
+# ------------------------------------------------------------------------------
+# Cargo Build Stage
+# ------------------------------------------------------------------------------
+
+FROM rust:alpine as cargo-build
+RUN rustup component add rustfmt
+WORKDIR /usr/src/scheduler_controller
+COPY . .
+
+RUN mkdir "$HOME/.cargo"
+COPY ./cargo_crates.config "$HOME/.cargo/config"
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache -U musl-dev
+RUN cargo build --release
+
+
+# ------------------------------------------------------------------------------
+# Final Stage
+# ------------------------------------------------------------------------------
+
+FROM alpine:latest
+COPY --from=cargo-build /usr/src/scheduler_controller/target/release/scheduler_controller /usr/local/bin/scheduler_controller
+CMD ["scheduler_controller"]

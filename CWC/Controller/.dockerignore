@@ -1,0 +1,6 @@
+target
+.vscode
+.DS_Store
+.gitignore
+deploy.harbor.sh
+k8s-deploy.yml

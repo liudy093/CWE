@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.PodsPowerPredict";
+option java_outer_classname = "PodsPowerPredictProto";
+option objc_class_prefix = "PPP";
+
+package PodsPowerPredict;
+
+service PodsPowerPredictService {
+  // Sends a request
+  rpc PodsPowerPredict (PodsPowerPredictRequest) returns (PodsPowerPredictReply) {}
+}
+
+// The request message.
+message PodsPowerPredictRequest {
+  string PodID = 1;
+  uint64 TargetTimestamp = 2;
+}
+
+// The response message.
+message PodsPowerPredictReply {
+  int32 PowerLevel = 1;
+}

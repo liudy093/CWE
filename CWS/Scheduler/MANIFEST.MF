@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
+Rsrc-Class-Path: ./ grpc-core-1.15.0.jar grpc-stub-1.15.0.jar javax.anno
+ tation-api-1.3.1.jar proto-google-common-protos-1.0.0.jar grpc-protobuf
+ -1.15.0.jar google-auth-library-credentials-0.9.0.jar google-auth-libra
+ ry-oauth2-http-0.9.0.jar google-http-client-1.19.0.jar google-http-clie
+ nt-jackson2-1.19.0.jar animal-sniffer-annotations-1.17.jar commons-code
+ c-1.3.jar commons-io-2.6.jar commons-lang3-3.5.jar commons-logging-1.1.
+ 1.jar error_prone_annotations-2.2.0.jar grpc-alts-1.15.0.jar grpc-auth-
+ 1.15.0.jar grpc-context-1.15.0.jar grpc-grpclb-1.15.0.jar grpc-netty-1.
+ 15.0.jar gson-2.7.jar guava-20.0.jar opencensus-contrib-grpc-metrics-0.
+ 12.3.jar opencensus-api-0.12.3.jar jsr305-3.0.0.jar grpc-netty-shaded-1
+ .15.0.jar grpc-protobuf-lite-1.15.0.jar grpc-testing-1.15.0.jar hamcres
+ t-core-1.3.jar httpclient-4.0.1.jar httpcore-4.0.1.jar jackson-core-2.1
+ .3.jar junit-4.12.jar mockito-core-1.9.5.jar netty-buffer-4.1.27.Final.
+ jar netty-codec-4.1.27.Final.jar netty-codec-http-4.1.27.Final.jar nett
+ y-codec-http2-4.1.27.Final.jar netty-codec-socks-4.1.27.Final.jar netty
+ -common-4.1.27.Final.jar netty-handler-4.1.27.Final.jar netty-handler-p
+ roxy-4.1.27.Final.jar netty-resolver-4.1.27.Final.jar netty-tcnative-bo
+ ringssl-static-2.0.7.Final.jar netty-transport-4.1.27.Final.jar objenes
+ is-1.0.jar protobuf-java-3.5.1.jar protobuf-java-util-3.5.1.jar snappy-
+ java-1.1.7.3.jar simpleclient_common-0.9.0.jar simpleclient_hotspot-0.9
+ .0.jar simpleclient_httpserver-0.9.0.jar simpleclient_pushgateway-0.9.0
+ .jar simpleclient-0.9.0.jar log4j-1.2.17.jar slf4j-api-1.7.2.jar slf4j-
+ log4j12-1.7.22.jar jedis-3.0.0.jar commons-pool2-2.4.3.jar
+Rsrc-Main-Class: bit.workflowScheduler.main.Main
+Class-Path: .
+

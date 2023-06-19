@@ -1,0 +1,42 @@
+- hosts: builder
+  remote_user: root
+  gather_facts: no
+  pre_tasks:
+    #- name: 更换为清华源 -- 枣庄学院内的所有虚机生成时已经默认切换到清华源
+    #  raw: 'sed -i "s/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list'
+    
+    - name: 更新 apt cache list
+      raw: apt update
+
+    - name: 安装 python
+      raw: apt install -y python-is-python3
+  
+  tasks:
+    - name: 1/4. 安装依赖包
+      apt:
+        name: 
+          - apt-transport-https
+          - ca-certificates 
+          - curl 
+          - gnupg2 
+          - software-properties-common
+        update_cache: yes
+
+    - name: 2/5. 导入密钥
+      shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+    - name: 3/5. 填入镜像地址
+      shell: add-apt-repository "deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+
+    - name: 4/5. 安装 docker-ce 和 pip
+      apt:
+        name: 
+          - docker-ce
+          - python3-pip
+        update_cache: yes
+      
+    - name: 5/5. 安装 docker 的 python3 绑定库
+      pip:
+        executable: pip3
+        name:
+          - docker

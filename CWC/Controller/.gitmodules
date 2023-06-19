@@ -1,0 +1,3 @@
+[submodule "grpc_proto"]
+	path = grpc_proto
+	url = gitea@git.cloudcontrolsystems.cn:CloudTeam/grpc_proto.git

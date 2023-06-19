@@ -1,0 +1,31 @@
+- hosts: builder
+  remote_user: root
+  gather_facts: no
+  vars:
+    IMAGE_NAME: controller:latest
+  tasks:
+    - name: 1/5. 根据目标平台导入变量参数
+      include_vars:
+        file: vars/{{TARGET_TO}}.vars.yml
+
+    - name: 2/5. 发布 Scheduler Controller 源码到目标机器
+      synchronize:
+        src: "{{playbook_dir}}/.."
+        dest: /opt/controller
+        delete: yes
+        compress: no
+        rsync_opts:
+          - "--exclude=**/target"
+          - "--exclude=**/.DS_Store"
+
+    - name: 3/5. 登陆到镜像仓库
+      docker_login:
+        username: '{{REGISTRY_USERNAME}}'
+        registry: '{{REGISTRY_URI}}'
+        password: '{{REGISTRY_PASSWORD}}'
+          
+    - name: 4/5. 编译 Docker 镜像
+      shell: cd /opt/controller && docker build -t {{IMAGE_TAG}} .
+
+    - name: 5/5. 推送到仓库
+      shell: docker push {{IMAGE_TAG}}

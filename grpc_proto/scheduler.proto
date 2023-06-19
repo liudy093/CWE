@@ -1,0 +1,49 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package scheduler;
+
+service Scheduler {
+    // 调度器控制器向调度器发送工作流DAG文件
+    rpc WorkflowTransfer(WorkflowTransferRequest) returns (WorkflowTransferReply);
+    rpc InputTaskState(TaskStateRequest) returns (TaskStateReply);
+    // 删除工作流
+    rpc DeleteWorkflow (DeleteWorkflowRequest) returns (DeleteWorkflowReply);
+}
+
+message WorkflowTransferRequest {
+    string sid = 1;
+    // 工作流binary array文件
+    repeated bytes workflow = 2;
+}
+
+message WorkflowTransferReply {
+    // 返回标记符，表示收到文件
+    uint32 accept = 1;
+}
+
+message TaskStateRequest {
+    string workflowID = 1; //workflowXX, 查询时将直接其作为namespace
+    repeated NodesState nodeState = 2;
+    string IP = 3;    //调度器所在的IP
+    message NodesState{
+        uint32 taskID = 1;
+        string taskPodName = 2; //例如task-12-XX-XX. X个数不确定
+        string taskState = 3;
+    }
+}
+
+message TaskStateReply {
+    uint32 accept = 1;
+}
+
+message DeleteWorkflowRequest { 
+    string workflow_id = 1;
+    string custom_id = 2;
+}
+  
+message DeleteWorkflowReply {
+    // 返回标记符，1表示成功删除，0表示失败
+    uint32 result = 1;
+    // 如果失败，填具体消息
+    string error_message = 2;
+}

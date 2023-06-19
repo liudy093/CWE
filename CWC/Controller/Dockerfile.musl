@@ -1,0 +1,25 @@
+# ------------------------------------------------------------------------------
+# Cargo Build Stage
+# ------------------------------------------------------------------------------
+
+FROM rust:1.44.1 as cargo-build
+RUN apt update
+RUN apt install musl-tools -y
+RUN rustup target add x86_64-unknown-linux-musl && \
+    rustup component add rustfmt
+WORKDIR /usr/src/scheduler_controller
+COPY . .
+
+RUN mkdir "$HOME/.cargo"
+COPY ./cargo_crates.config "$HOME/.cargo/config"
+
+RUN CARGO_HTTP_MULTIPLEXING=false RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+
+
+# ------------------------------------------------------------------------------
+# Final Stage
+# ------------------------------------------------------------------------------
+
+FROM alpine:latest
+COPY --from=cargo-build /usr/src/scheduler_controller/target/x86_64-unknown-linux-musl/release/scheduler_controller /usr/local/bin/scheduler_controller
+CMD ["scheduler_controller"]

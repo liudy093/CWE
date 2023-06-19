@@ -1,0 +1,35 @@
+---
+kind: pipeline
+type: exec
+name: scheduler
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+#steps:
+#- name: docker build
+#  image: plugins/docker
+#  settings:
+#    registry: harbor.cloudcontrolsystems.cn
+#    repo: harbor.cloudcontrolsystems.cn/workflow/scheduler
+#    tags: latest
+#   username: admin
+#    password: bit123
+#    cache_from: harbor.cloudcontrolsystems.cn/workflow/scheduler:latest
+
+steps:
+- name: docker build
+  commands:
+    - docker build -t harbor.cloudcontrolsystems.cn/workflow/scheduler:latest .
+    
+- name: push-to-repo
+  commands:
+    - docker login harbor.cloudcontrolsystems.cn -u admin -p bit123
+    - docker push harbor.cloudcontrolsystems.cn/workflow/scheduler:latest

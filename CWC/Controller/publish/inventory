@@ -1,0 +1,5 @@
+[builder]
+121.250.173.188
+
+[all:vars]
+TARGET_TO=bit # bit, xxl
