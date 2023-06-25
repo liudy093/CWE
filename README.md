@@ -1,2 +1,2 @@
-# Scheduling Containerized Workflows
+# Containerized Workflows Engine
 # CWE
